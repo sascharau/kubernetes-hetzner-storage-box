@@ -39,3 +39,9 @@ spec:
     persistentVolumeClaim:
       claimName: hetzner-storage-pvc
 ...
+```
+
+In this example, the logs of the nginx server in your application would be written directly to the StorageBox.
+
+### Notes
+To complete the setup, you need to have the SMB CSI driver installed and configured in your cluster. You can find more information and installation steps in the official [CSI driver documentation](https://kubernetes-csi.github.io/docs/drivers.html). For the SMB CSI driver specifically, you can refer to the [SMB CSI Driver documentation](https://github.com/kubernetes-csi/csi-driver-smb).
