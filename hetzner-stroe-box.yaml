@@ -1,0 +1,68 @@
+# Change the username, password, namespace, storage class name, and storage box name
+
+# Define the Secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: storage-box-1
+  namespace: default
+stringData:
+  username: your-username
+  password: your-password
+
+---
+# Define the StorageClass
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: hetzner-storage-box-1  # Change this to your StorageClass name
+allowVolumeExpansion: true
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=1001
+  - gid=1001
+parameters:
+  csi.storage.k8s.io/node-stage-secret-name: storage-box-1
+  csi.storage.k8s.io/node-stage-secret-namespace: default
+  csi.storage.k8s.io/provisioner-secret-name: storage-box-1
+  csi.storage.k8s.io/provisioner-secret-namespace: default
+  source: //your-username.your-storagebox.de/backup  # Change this to your SMB source
+provisioner: smb.csi.k8s.io
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+
+---
+# Define the PersistentVolume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-storage-box-1  # Change this to your PersistentVolume name
+spec:
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 1000Gi
+  csi:
+    driver: smb.csi.k8s.io
+    nodeStageSecretRef:
+      name: storage-box-1
+      namespace: default
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: hetzner-storage-box-1  # Change this to your StorageClass name
+  volumeMode: Filesystem
+
+---
+# Define the PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hetzner-storage-pvc
+  namespace: default  # Change this to your namespace
+spec:
+  storageClassName: hetzner-storage-box-1  # Change this to your StorageClass name
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
