@@ -1,0 +1,1 @@
+# kubernetes-hetzner-storage-box
