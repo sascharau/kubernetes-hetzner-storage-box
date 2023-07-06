@@ -4,23 +4,23 @@ This document explains how to configure a Hetzner SMB StorageBox in a Kubernetes
 
 ## Prerequisites
 
-- A running Kubernetes cluster.
-- Installed and configured SMB CSI driver (e.g., smb.csi.k8s.io).
-- An active Hetzner SMB StorageBox.
+- A running Kubernetes cluster (version ...).
+- Installed and configured SMB CSI driver (smb.csi.k8s.io). For more information, visit: https://github.com/kubernetes-csi/csi-driver-smb
+- An active Hetzner SMB StorageBox. To learn more, visit: https://www.hetzner.com/storage/storage-box
 
 ## Configuration Steps
 
-The hetzner-stroe-box.yaml manifests are examples of how to define the StorageClass, the PersistentVolume (PV), and the PersistentVolumeClaim (PVC) for the Hetzner SMB StorageBox.
+The `hetzner-storage-box.yaml` manifests are examples of how to define the StorageClass, the PersistentVolume (PV), and the PersistentVolumeClaim (PVC) for the Hetzner SMB StorageBox.
 
-1. **StorageClass**: The StorageClass defines the provisioner and parameters (like the mount options and SMB source). Make sure you have correctly set the username and password in the SMB secret.
+1. **StorageClass**: The StorageClass defines the provisioner and parameters (like the mount options and SMB source). Make sure you have correctly set the `username` and `password` in the SMB secret, which should correspond to your StorageBox credentials.
 
-2. **PersistentVolume**: This represents the actual storage resource in your StorageBox. Here, the CSI driver is set to `smb.csi.k8s.io` and the nodeStageSecretRef is set to the SMB secret.
+2. **PersistentVolume**: This represents the actual storage resource in your StorageBox. Here, the CSI driver is set to `smb.csi.k8s.io` and the `nodeStageSecretRef` is set to the SMB secret.
 
 3. **PersistentVolumeClaim**: PVCs request a specific size or access mode for a PV. In our case, it references the StorageClass `hetzner-storage-box-1`.
 
 4. **Pod**: This is an example of a Pod that mounts the volume for writing logs.
 
-### Example Sav Logs
+### Example for how to save nginx logs
 
 Here is an example of how you can mount it to a specific path in a Pod:
 
@@ -29,7 +29,7 @@ Here is an example of how you can mount it to a specific path in a Pod:
 spec:
   containers:
   - name: app
-    image: your-image
+    image: nginx:latest
     volumeMounts:
     - name: hetzner-storage
       mountPath: /var/log/nginx
@@ -39,4 +39,3 @@ spec:
     persistentVolumeClaim:
       claimName: hetzner-storage-pvc
 ...
-
