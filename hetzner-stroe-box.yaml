@@ -48,6 +48,7 @@ spec:
     nodeStageSecretRef:
       name: storage-box-1
       namespace: default
+    volumeHandle: your-username.your-storagebox.de/backup
   persistentVolumeReclaimPolicy: Retain
   storageClassName: hetzner-storage-box-1  # Change this to your StorageClass name
   volumeMode: Filesystem
