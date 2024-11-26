@@ -16,7 +16,7 @@ The `hetzner-storage-box.yaml` manifests are examples of how to define the Stora
 
 2. **PersistentVolume**: This represents the actual storage resource in your StorageBox. Here, the CSI driver is set to `smb.csi.k8s.io` and the `nodeStageSecretRef` is set to the SMB secret.
 
-3. **PersistentVolumeClaim**: PVCs request a specific size or access mode for a PV. In our case, it references the StorageClass `hetzner-storage-box-1`.
+3. **PersistentVolumeClaim**: PVCs request a specific size or access mode for a PV. In our case, it references the StorageClass `storagebox-1`.
 
 4. **Pod**: This is an example of a Pod that mounts the volume for writing logs.
 
@@ -37,7 +37,7 @@ spec:
   volumes:
   - name: hetzner-storage
     persistentVolumeClaim:
-      claimName: hetzner-storage-pvc
+      claimName: storagebox-1
 ...
 ```
 
@@ -45,3 +45,5 @@ In this example, the logs of the nginx server in your application would be writt
 
 ### Notes
 To complete the setup, you need to have the SMB CSI driver installed and configured in your cluster. You can find more information and installation steps in the official [CSI driver documentation](https://kubernetes-csi.github.io/docs/drivers.html). For the SMB CSI driver specifically, you can refer to the [SMB CSI Driver documentation](https://github.com/kubernetes-csi/csi-driver-smb).
+
+
