@@ -33,7 +33,7 @@ spec:
     volumeMounts:
     - name: hetzner-storage
       mountPath: /var/log/nginx
-      subPath: logs/mycoolapp
+      subPath: log/myapp # The subdirectory in the StorageBox must be created beforehand.
   volumes:
   - name: hetzner-storage
     persistentVolumeClaim:
