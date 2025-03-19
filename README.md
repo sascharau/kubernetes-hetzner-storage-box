@@ -4,8 +4,8 @@ This document explains how to configure a Hetzner SMB StorageBox in a Kubernetes
 
 ## Prerequisites
 
-- A running Kubernetes cluster (version ...).
-- Installed and configured SMB CSI driver (smb.csi.k8s.io). For more information, visit: https://github.com/kubernetes-csi/csi-driver-smb
+- A running Kubernetes cluster
+- Installed and configured SMB CSI driver (smb.csi.k8s.io). For more information, visit: https://github.com/kubernetes-csi/csi-driver-smb/blob/master/docs/install-smb-csi-driver.md
 - An active Hetzner SMB StorageBox. To learn more, visit: https://www.hetzner.com/storage/storage-box
 
 ## Configuration Steps
@@ -42,6 +42,9 @@ spec:
 ```
 
 In this example, the logs of the nginx server in your application would be written directly to the StorageBox.
+
+### Troubleshooting
+- You may need to add a firewall rule. [out, tcp, 445]
 
 ### Notes
 To complete the setup, you need to have the SMB CSI driver installed and configured in your cluster. You can find more information and installation steps in the official [CSI driver documentation](https://kubernetes-csi.github.io/docs/drivers.html). For the SMB CSI driver specifically, you can refer to the [SMB CSI Driver documentation](https://github.com/kubernetes-csi/csi-driver-smb).
